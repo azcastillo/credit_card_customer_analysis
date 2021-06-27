@@ -2,7 +2,6 @@
 
 <p align="center">
   <img src=images/credit_card.jpg /width=500>
-  <img src=images/credit_cards1.png />
 </p>
 
  ### Project Overview:
