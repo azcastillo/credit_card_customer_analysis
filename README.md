@@ -46,6 +46,7 @@ Modelling the salaries consisted of the regularization methods Lasso, Ridge, Ela
 ## EDA
 The following images are highlights of the exploratory data analysis performed on this data set. There is a much more detailed analysis given in the salary_eda.ipynb notebook. 
 
+### KMeans Clustering
 * Box plot detailing which sector paid a higher average salary. A detailed pivot table was also given in the salary_eda.ipynb file for more explicit numbers.  
 
 ![](images/cluster_image.jpg )
@@ -58,6 +59,7 @@ The following images are highlights of the exploratory data analysis performed o
 
 ![](images/silhouette_plot.jpg)
 
+### Hierarchical Clustering
 * Bar chart indicating the number of available jobs in reference to the company's headquarters. As we can see, New York lead the way in terms of the number of such jobs being offered.  
 
 ![](images/max_metric_dendrogram.jpg)
@@ -67,16 +69,13 @@ The following images are highlights of the exploratory data analysis performed o
 ![](images/ward_metric_dendrogram.jpg)
 
 ## Model Building: 
-I selected features from the feature selection notebook for the Lasso model and evaluated more features for the remaining models. I chose the features for the Ridge, Elastic Net, and XGBoost models based off of the EDA done in the corresponding notebook. For the regularization models, I scaled the data with the built in normaize method. After all features were selected I transformed the categorical variables into dummy variables using the pd.get_summies method. I split the data into train and tests sets with a test size of 30%. For the XGBoost model I first put the data set in the necessary form using Dmatrix and constructed a baseline model using default parameters before tuning. 
+
 
 
 ## Models Used: 
-*	**Lasso Regression** – A baseline for the model. Given the sparsity of the data after one hot encoding, we could use feature selection to help with the predictions. 
-*	**Ridge Regression** – Given the present (slight) multicollinearity of the features, ridge regression could provide as a nice alternative to Lasso. 
-*	**Elastic Net Regression** –  See if we could potentially balance the l1 and l2 regularization techniques. 
-*	**XGBoost** – With the sparsity and binary nature of the data, a tree based boosted model seemed to have a solid chance to lower the MAE as much as possible. 
+*	**KMeans Clustering** – A baseline for the model. Given the sparsity of the data after one hot encoding, we could use feature selection to help with the predictions. 
+*	**Hierarchical Clustering** – Given the present (slight) multicollinearity of the features, ridge regression could provide as a nice alternative to Lasso. 
 
-I ultimately opted with the XGBoost due to MAE performance as well as wanting to avoid overtraining. Hyperparameter tuning using the XGBoost built in feature also allowed me to get the best MAE on the validation data from all models. 
 
 ## Model performance
 
