@@ -1,13 +1,8 @@
 # Credit Card Customer Analysis Project 
 
 <p align="center">
-  <img src=images/data_analyst.jpg />
-  <img src=images/python_sql.png />
-</p>
-
-<p align="center">
-  <img src=images/tableau.png />
-  <img src=images/excel.png/>
+  <img src=images/credit_card.jpg />
+  <img src=images/credit_cards1.png />
 </p>
 
  ### Project Overview:
