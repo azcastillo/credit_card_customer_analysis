@@ -6,25 +6,17 @@
 
  ### Project Overview:
  
-This project consisted of analyzing the skills needed for data analyst positions as well as predict the salaries for such positions (MAE approx 14.83K). I also analyzed the locations that had the most jobs available, their available salaries, which type of specific data analyst jobs were available, as well as which specific job titles had the highest ratings. I used data that was scraped from glassdoor.com and can be found at the following link: https://www.kaggle.com/andrewmvd/data-analyst-jobs. 
+This project consisted of evaluating characteristics of credit card customers. The given data consisted of features such as average credit limit, total credit cards, visits to the bank and online, and calls made to the bank. Since we would like to evaluate characteristics of customers and there is no target variable, we need to use unsupervised learning techniques to gather information from the data. 
 
-As data analyst positions become more popular as the field grows, I hope the results of this project help those who are looking for such positions. Those on the job market could use the results of this project to zone in on what skills they should acquire, where they could potentitally look for jobs, as well as analyze which sectors value the position the most.  
+In particular, evaluating the characteristics of the clusters consisted of implementing the well known clustering methods KMeans and Hierarchical. Using elbow plots, silhouette graphs, and dendrograms, it was found that three clusters is the optimal number of clusters for this data. To understand and evaluate the clusters, various exploratory data analysis techniques were used including box plots, violin plots, and distributions. The Hierarchical clustering technique retured the highest silhouette score of the two methods and it would appear that this technique is best for the data. 
 
-Part of the project consisted of generating features from the text of the job description to find the which skills were required. Examples include, SQL, Excel, Tableau, Power-BI, and Python. 
+Here is a detailed customer cluster analysis from the Hierarchical technique: 
 
-Extensive exploratory data analysis was used for the findings and can be referenced below. A few important items that stand out from the data are as follows:
-- Average salary for all positions is about 72.12K and average rating for all companies is about 3.16
-- 28% of companies wanted Python skills and about 60% wanted sql or excel. 
-- 100% of positions wanted at least a bachelor's degree, 36% wanted a master's, 2% only wanted a PhD. 
-- Companies whose revenues were between 1 and 5 million paid the highest average salary at about 76 thousand. In contrast, the companies with revenues of 500 million to 1 billion were near the bottom. 
-- SQL is an absolutely necessary skill that all data analyst should know. 
-- Tableau also seems to be the data visualization dashboard program of choice. In particular, 27% of positions wanted Tableau over the 7% that wanted Power BI
-- Biotech & Pharmaceuticals, Real Estate, and Arts were among the highest paying sectors for data analyst. 
-- Drug and Health stores, Education Training Services, and Health Care Products Manufactoring were among the highest paying industries. 
-- California, Colorado, Illinois were among the highest paying states for data analyst positions. 
-- Data Security Analyst had the highest salaries (~81K) but one of the lower average rating at around 2.79. 
+- __Cluster 0:__ This cluster is in between the next two clusters in size. The credit limits seem to indicate that these are middle class customers that have a good amount of interactions with the bank. This would indicate that these are responsible customers from a business standpoint. Depending on the length of their time with the bank, it could be worthwhile to extend their potential lines of credit to hopefully increase their credit spending activity, resulting in more business revenue for the bank. 
 
-Modelling the salaries consisted of the regularization methods Lasso, Ridge, Elastic Net as well as the powerful XGBoost. I used GridSearchCV on the regularization models and the built in hyperparameter tuning feature of XGBoost to optimize that model. 
+- __Cluster 1:__ Given the high credit limits of these customers along with the most interactions, it would suggest that these customers are high quality customers. This may indicate that not only do these customers have a higher average income but are also more responsible. This would suggest that these customers can be very profitable from an advertisement standpoint. This is the smallest cluster population wise. 
+
+- __Cluster 2:__ Since this cluster has the most customers within it, many of the metrics are highest here. Given that these customers tend to have lower average credit limits as well as lower number of credit cards, this may signal that they have a lower income or have developing credit. It may be worthwhile business wise to interact with these customers to potentially reduce churn and potential credit default. This can be done via check in emails, calls, amd account reminders when visiting online. 
 
 ## Code and Resources Used 
 **Python Version:** 3.9  
@@ -41,59 +33,48 @@ Modelling the salaries consisted of the regularization methods Lasso, Ridge, Ela
 
 
 ## Data Cleaning: 
+The data itself was very clean as given with no missing values. The only cleaning that was done was to engineer features that I thought would be important for the clustering process. The features that were created were 'interactions', 'avg_credit_per_card', and 'avg_credit_per_interactions'. 
 
 
 ## EDA
-The following images are highlights of the exploratory data analysis performed on this data set. There is a much more detailed analysis given in the salary_eda.ipynb notebook. 
+The following images are highlights of the exploratory data analysis performed on this data set. A quick summary of each image is given. 
 
 ### KMeans Clustering
-* Box plot detailing which sector paid a higher average salary. A detailed pivot table was also given in the salary_eda.ipynb file for more explicit numbers.  
+* Scatter plot giving the potential clusters along with their centroids.  
 
 ![](images/cluster_image.jpg )
 
-* The following graph shows the average salaries of data analyst jobs whose job descriptions indicated a PhD as a preference. Not many jobs indicated this but when they do the salaries can be significantly higher. 
+* This elbow plot shows that the ideal number of clusters could potentially be three for KMeans clustering. 
 
 ![](images/elbow_plot.jpg)
 
-* In contrast, the following graph shows the average salaries of data analyst jobs whose job descriptions indicated a master's degree as a preference.
+* The following silhouette plot shows the average silhouette score for the data as well as how large each cluster is relative to the other clusters. Further analysis was done on other cluster sizes and this graph gave the best silhouette score. 
 
 ![](images/silhouette_plot.jpg)
 
 ### Hierarchical Clustering
-* Bar chart indicating the number of available jobs in reference to the company's headquarters. As we can see, New York lead the way in terms of the number of such jobs being offered.  
+* Dendrogram for the hierarchical clustering technique. This dendrogram was graphed using the 'Max' metric. The graph shows that three clusters could be optimal but the branches also have a long length, indicating large dissimilarity between the clusters. 
 
 ![](images/max_metric_dendrogram.jpg)
 
-* This box plot shows the average salaries for data analyst positions whose job descriptions indicate SQL as a desired skill. Not only do most companies desire SQL as a necessary skill, but it also pays a higher salary to know the language. 
+* Dendrogram for the hierarchical clustering technique. This dendrogram was graphed using the 'Ward' metric. The graph shows that again three clusters and the branches are relatively long indicating nice cluster dissimilarity. We will use this metric in the agglomerative clustering method as well as three clusters. 
 
 ![](images/ward_metric_dendrogram.jpg)
 
 ## Model Building: 
 
-
+For this problem, we used two different clustering techniques: KMeans and Agglomerative Hierarchical Clustering. Analysis was done to find the best number of clusters for each technique. Various metrics were used for the hierarchical technique including: 'Complete (Max)', 'Weighted', 'Average', and 'Ward'. 
 
 ## Models Used: 
-*	**KMeans Clustering** – A baseline for the model. Given the sparsity of the data after one hot encoding, we could use feature selection to help with the predictions. 
-*	**Hierarchical Clustering** – Given the present (slight) multicollinearity of the features, ridge regression could provide as a nice alternative to Lasso. 
+*	**KMeans Clustering** – Interpretable model and a baseline for seeing what could occur with clustering. 
+*	**Hierarchical Clustering** – Given the amount of data, the Hierarchical technique was used for further analysis to contrast against KMeans. 
 
 
 ## Model performance
 
-**Part 1**: 
-Using cross validation, we got the following explicit MAE scores. Since hyperparameter tuning was used (using GridSearchCV and XGBoost built in tuning) for all of our models, we also give the found parameters. 
+* KMeans Clustering: 
+  * Silhouette score with three clusters: 0.1541
 
-Lasso Regression Score: 
-*	MAE: 15.23
-- Hyperparameters: alpha=0.01
+* Hierarchical Clustering: 
+  *  * Silhouette score with three clusters: 0.1796
 
-Ridge Regression Score: 
-*	MAE: 15.40
-- Hyperparameters: alpha=0.11 
-
-Elastic Net Regression Score: 
-*	MAE: 17.67
-- Hyperparameters: alpha=0.01 and l1_ratio=0.01
-
-XGBoost Score: 
-*	MAE: 14.83 (in 30 boosting rounds)
-- Hyperparameters: max_depth=7, min_child_weight=7, eta= 0.1, subsample=1
